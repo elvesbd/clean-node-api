@@ -1,4 +1,3 @@
-
 import { Validation } from '../../../../presentation/interfaces'
 import { EmailValidator } from '../../../../validation/interfaces/email-validator'
 import { RequiredFieldValidation, CompareFieldsValidation, EmailValidation, ValidationComposite } from '../../../../validation/validators'

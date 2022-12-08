@@ -1,8 +1,7 @@
-import { EmailInUseError, MissingParamError, ServerError } from '../../errors'
-import { ServerErrorException, Created, BadRequestException, ForbidenException } from '../../helpers/http/http-helper'
-import { Validation } from '../../interfaces/validation'
+import { ServerError, EmailInUseError, MissingParamError } from '../../../errors'
+import { ServerErrorException, ForbidenException, Created, BadRequestException } from '../../../helpers/http/http-helper'
 import { SignupController } from './signup-controller'
-import { AddAccount, AccountModel, HttpRequest, AccountDTO, Authentication, AuthenticationModel } from './signup-controller-interfaces'
+import { AddAccount, AccountModel, HttpRequest, AccountDTO, Authentication, AuthenticationModel, Validation } from './signup-controller-interfaces'
 
 interface SutTypes {
   sut: SignupController

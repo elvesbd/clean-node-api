@@ -1,6 +1,5 @@
-import { BadRequestException, UnauthorizedException, Ok, ServerErrorException } from '../../helpers/http/http-helper'
-import { Validation } from '../../interfaces/validation'
-import { Authentication, Controller, HttpRequest, HttpResponse } from './login-controller-interfaces'
+import { BadRequestException, UnauthorizedException, Ok, ServerErrorException } from '../../../helpers/http/http-helper'
+import { Authentication, Controller, HttpRequest, HttpResponse, Validation } from './login-controller-interfaces'
 
 export class LoginController implements Controller {
   constructor (
