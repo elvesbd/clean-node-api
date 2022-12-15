@@ -1,4 +1,4 @@
-import { ForbidenException, Ok } from '../helpers/http/http-helper'
+import { ForbidenException, Ok, ServerErrorException } from '../helpers/http/http-helper'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
 import { LoadAccountByToken } from '../../domain/usecases/load-account-by-token'
@@ -64,6 +64,15 @@ describe('Auth Middleware', () => {
 
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(ForbidenException(new AccessDeniedError()))
+  })
+
+  it('should return 500 if LoadAccountByToken throws', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut()
+
+    jest.spyOn(loadAccountByTokenStub, 'load').mockRejectedValueOnce(new Error())
+
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ServerErrorException(new Error()))
   })
 
   it('should return 200 if LoadAccountByToken returns an account', async () => {
