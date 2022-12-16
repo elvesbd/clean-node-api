@@ -27,7 +27,7 @@ const makeDecrypter = (): Decrypter => {
 
 const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByToken (token: string, role?: string): Promise<AccountModel> {
+    async loadByToken (token: string, role?: string): Promise<AccountModel | null> {
       return makeAccount()
     }
   }
@@ -71,5 +71,14 @@ describe('DbLoadAccountByToken Usecase', () => {
     await sut.load('any_token', 'any_role')
 
     expect(loadByTokenSpy).toHaveBeenCalledWith('any_token', 'any_role')
+  })
+
+  it('should return null if LoadAccountByTokenRepository returns null', async () => {
+    const { sut, loadAccountByTokenRepositoryStub } = makeSut()
+
+    jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockResolvedValueOnce(null)
+    const account = await sut.load('any_token', 'any_role')
+
+    expect(account).toBeNull()
   })
 })
