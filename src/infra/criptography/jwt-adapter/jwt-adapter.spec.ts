@@ -88,5 +88,22 @@ describe('Jwt Adapter', () => {
       expect(jwt.verify).toHaveBeenCalledTimes(2)
       expect(jwt.verify).toHaveBeenCalledWith('any_token', 'secret')
     })
+
+    it('should throw if verify throws', async () => {
+      const sut = makeSut()
+
+      jest.spyOn(jwt, 'verify').mockImplementationOnce(() => {
+        throw new Error()
+      })
+
+      /* await expect(sut.decrypt('any_token')).rejects.toThrow()
+
+      expect(jwt.verify).toBeDefined()
+      expect(typeof jwt.verify).toBe('function')
+      expect(jwt.verify).toHaveBeenCalledTimes(3) */
+
+      const promise = sut.decrypt('any_token')
+      await expect(promise).rejects.toThrow()
+    })
   })
 })
