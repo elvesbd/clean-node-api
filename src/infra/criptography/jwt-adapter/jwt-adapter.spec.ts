@@ -72,5 +72,21 @@ describe('Jwt Adapter', () => {
       expect(typeof jwt.verify).toBe('function')
       expect(jwt.verify).toHaveBeenCalledTimes(1)
     })
+
+    it('should return a value on verify success', async () => {
+      const sut = makeSut()
+
+      jest.spyOn(jwt, 'verify')
+
+      const value = await sut.decrypt('any_token')
+      expect(value).toBeDefined()
+      expect(value).toBe('any_value')
+      expect(typeof value).toBe('string')
+
+      expect(jwt.verify).toBeDefined()
+      expect(typeof jwt.verify).toBe('function')
+      expect(jwt.verify).toHaveBeenCalledTimes(2)
+      expect(jwt.verify).toHaveBeenCalledWith('any_token', 'secret')
+    })
   })
 })
