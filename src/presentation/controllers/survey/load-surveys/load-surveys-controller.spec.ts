@@ -1,7 +1,7 @@
 import { LoadSurveysController } from './load-surveys-controller'
 import { LoadSurveys, SurveyModel } from './load-surveys-controller.interfaces'
 import MockDate from 'mockdate'
-import { Ok } from '../../../helpers/http/http-helper'
+import { Ok, ServerErrorException } from '../../../helpers/http/http-helper'
 
 interface SutTypes {
   sut: LoadSurveysController
@@ -77,5 +77,14 @@ describe('LoadSurveys Controller', () => {
     const httpResponse = await sut.handle({})
 
     expect(httpResponse).toEqual(Ok(makeFakeSurveys()))
+  })
+
+  it('should return 500 if LoadSurveys throws', async () => {
+    const { sut, loadSurveyStub } = makeSut()
+
+    jest.spyOn(loadSurveyStub, 'load').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle({})
+
+    expect(httpResponse).toEqual(ServerErrorException(new Error()))
   })
 })
