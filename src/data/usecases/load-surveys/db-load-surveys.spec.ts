@@ -1,6 +1,7 @@
 import { SurveyModel } from '../../../domain/models/survey'
 import { LoadSurveyRepository } from '../../interfaces/db/survey/load-survey-repository'
 import { DbLoadSurveys } from './db-load-surveys'
+import MockDate from 'mockdate'
 
 interface SutTypes {
   sut: DbLoadSurveys
@@ -53,6 +54,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbLoadSurveys', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+
   it('should call LoadSurveyRepository', async () => {
     const { sut, loadSurveyRepositoryStub } = makeSut()
     const loadAllSpy = jest.spyOn(loadSurveyRepositoryStub, 'loadAll')
