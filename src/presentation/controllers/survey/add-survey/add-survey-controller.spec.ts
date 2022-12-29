@@ -50,11 +50,11 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddSurvey Controller', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     MockDate.set(new Date())
   })
 
-  beforeAll(() => {
+  afterAll(() => {
     MockDate.reset()
   })
 
