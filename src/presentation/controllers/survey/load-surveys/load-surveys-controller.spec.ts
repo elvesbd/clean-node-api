@@ -1,7 +1,7 @@
 import { LoadSurveysController } from './load-surveys-controller'
 import { LoadSurveys, SurveyModel } from './load-surveys-controller.interfaces'
 import MockDate from 'mockdate'
-import { NoContent, Ok, ServerErrorException } from '../../../helpers/http/http-helper'
+import { NoContent, Ok, ServerErrorException } from '@/presentation/helpers/http/http-helper'
 
 interface SutTypes {
   sut: LoadSurveysController

@@ -1,6 +1,6 @@
 import { AddSurvey, AddSurveyModel, HttpRequest, Validation } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
-import { BadRequestException, NoContent, ServerErrorException } from '../../../helpers/http/http-helper'
+import { BadRequestException, NoContent, ServerErrorException } from '@/presentation/helpers/http/http-helper'
 import MockDate from 'mockdate'
 
 interface SutTypes {

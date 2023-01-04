@@ -1,5 +1,5 @@
-import { BadRequestException, NoContent, ServerErrorException } from '../../../helpers/http/http-helper'
 import { AddSurvey, Controller, HttpRequest, HttpResponse, Validation } from './add-survey-controller-interfaces'
+import { BadRequestException, NoContent, ServerErrorException } from '@/presentation/helpers/http/http-helper'
 
 export class AddSurveyController implements Controller {
   constructor (

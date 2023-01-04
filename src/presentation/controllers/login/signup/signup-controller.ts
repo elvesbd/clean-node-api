@@ -1,7 +1,7 @@
 
-import { EmailInUseError } from '../../../errors'
-import { BadRequestException, ForbidenException, Created, ServerErrorException } from '../../../helpers/http/http-helper'
 import { Controller, AddAccount, HttpRequest, HttpResponse, Authentication, Validation } from './signup-controller-interfaces'
+import { EmailInUseError } from '@/presentation/errors'
+import { BadRequestException, ForbidenException, Created, ServerErrorException } from '@/presentation/helpers/http/http-helper'
 
 export class SignupController implements Controller {
   constructor (
