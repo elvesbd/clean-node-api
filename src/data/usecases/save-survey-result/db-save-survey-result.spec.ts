@@ -8,15 +8,15 @@ interface SutTypes {
   saveSurveyResultRepositoryStub: SaveSurveyResultRepository
 }
 
-const makeFakeSurveyResult = (): SaveSurveyResultModel => ({
+const makeFakeSurveyResult = (): SurveyResultModel => ({
+  id: 'any_id',
   accountId: 'any_account_id',
   surveyId: 'any_survey_id',
   answer: 'any_answer',
   date: new Date()
 })
 
-const makeFakeSaveSurveyResultData = (): SurveyResultModel => ({
-  id: 'any_id',
+const makeFakeSaveSurveyResultData = (): SaveSurveyResultModel => ({
   accountId: 'any_account_id',
   surveyId: 'any_survey_id',
   answer: 'any_answer',
@@ -26,7 +26,7 @@ const makeFakeSaveSurveyResultData = (): SurveyResultModel => ({
 const makeSaveSurveyResultRepository = (): SaveSurveyResultRepository => {
   class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
     async save (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-      return makeFakeSaveSurveyResultData()
+      return makeFakeSurveyResult()
     }
   }
   return new SaveSurveyResultRepositoryStub()
@@ -61,5 +61,11 @@ describe('DbSaveSurveyResult UseCase', () => {
 
     const promise = sut.save(makeFakeSurveyResult())
     await expect(promise).rejects.toThrow()
+  })
+
+  it('should return SurveyResult on success', async () => {
+    const { sut } = makeSut()
+    const surveyResult = await sut.save(makeFakeSaveSurveyResultData())
+    expect(surveyResult).toEqual(makeFakeSurveyResult())
   })
 })
