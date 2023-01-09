@@ -1,7 +1,6 @@
 import { DbLoadSurveyById } from './db-load-survey-by-id'
-import { SurveyModel } from '@/domain/models/survey'
 import MockDate from 'mockdate'
-import { LoadSurveyByIdRepository } from '@/data/interfaces/db/survey/load-survey-by-id-repository'
+import { LoadSurveyByIdRepository, SurveyModel } from './db-load-survey-by-id.interfaces'
 
 interface SutTypes {
   sut: DbLoadSurveyById
