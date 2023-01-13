@@ -5,7 +5,7 @@ import { LoadAccountByEmailRepository } from '@/data/interfaces/db/account/load-
 import { UpdateAccessTokenRepository } from '@/data/interfaces/db/account/update-access-token-repository'
 import { LoadAccountByTokenRepository } from '@/data/interfaces/db/account/load-account-by-token'
 import { AccountModel } from '@/domain/models/account'
-import { AccountDTO } from '@/domain/usecases/add-account'
+import { AccountDTO } from '@/domain/usecases/account/add-account'
 
 export class AccountMongoRepository implements
   AddAccountRepository,

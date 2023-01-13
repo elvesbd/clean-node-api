@@ -1,7 +1,8 @@
-import { SaveSurveyResultModel } from '../../../domain/usecases/save-survey-result'
-import { SurveyResultModel } from '../../../domain/models/survey-result'
-import { SaveSurveyResultRepository } from '../../interfaces/db/survey/save-survey-repository'
+import { SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
+import { SurveyResultModel } from '@/domain/models/survey-result'
+
 import { DbSaveSurveyResult } from './db-save-survey-result'
+import { SaveSurveyResultRepository } from '@/data/interfaces/db/survey-result/save-survey-repository'
 
 interface SutTypes {
   sut: DbSaveSurveyResult
