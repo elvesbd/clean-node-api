@@ -1,6 +1,8 @@
+import { ForbidenException } from '../../../helpers/http/http-helper'
 import { SaveSurveyResultController } from './save-survey-resulr.controller'
 import { HttpRequest, LoadSurveyById } from './save-survey-result.interface'
 import { SurveyModel } from '@/domain/models/survey'
+import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
 
 interface SutTypes {
   sut: SaveSurveyResultController
@@ -49,5 +51,12 @@ describe('SaveSurveyResult Controller', () => {
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
     await sut.handle(makeFakeHttpRequest())
     expect(loadByIdSpy).toHaveBeenCalledWith('any_survey_id')
+  })
+
+  it('should return 403 if LoadSurveyById returns null', async () => {
+    const { sut, loadSurveyByIdStub } = makeSut()
+    jest.spyOn(loadSurveyByIdStub, 'loadById').mockResolvedValueOnce(null)
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(ForbidenException(new InvalidParamError('surveyId')))
   })
 })
