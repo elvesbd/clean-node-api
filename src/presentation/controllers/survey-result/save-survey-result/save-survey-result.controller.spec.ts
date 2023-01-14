@@ -3,13 +3,14 @@ import { SaveSurveyResultController } from './save-survey-resulr.controller'
 import { HttpRequest, LoadSurveyById } from './save-survey-result.interface'
 import { SurveyModel } from '@/domain/models/survey'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
+import { ServerErrorException } from '@/presentation/helpers/http/http-helper'
 
 interface SutTypes {
   sut: SaveSurveyResultController
   loadSurveyByIdStub: LoadSurveyById
 }
 
-const makeFakeHttpRequest = (): HttpRequest => ({
+const makeFakeRequest = (): HttpRequest => ({
   params: {
     surveyId: 'any_survey_id'
   }
@@ -49,14 +50,21 @@ describe('SaveSurveyResult Controller', () => {
   it('should call LoadSurveyById with correct values', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
-    await sut.handle(makeFakeHttpRequest())
+    await sut.handle(makeFakeRequest())
     expect(loadByIdSpy).toHaveBeenCalledWith('any_survey_id')
   })
 
   it('should return 403 if LoadSurveyById returns null', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockResolvedValueOnce(null)
-    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(ForbidenException(new InvalidParamError('surveyId')))
+  })
+
+  it('should return 500 if LoadSurveyById throws', async () => {
+    const { sut, loadSurveyByIdStub } = makeSut()
+    jest.spyOn(loadSurveyByIdStub, 'loadById').mockRejectedValueOnce(new Error())
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ServerErrorException(new Error()))
   })
 })
