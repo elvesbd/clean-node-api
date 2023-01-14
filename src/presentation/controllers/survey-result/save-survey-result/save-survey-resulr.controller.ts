@@ -1,6 +1,6 @@
 import { Controller, HttpRequest, HttpResponse, LoadSurveyById, SaveSurveyResult } from './save-survey-result.interface'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
-import { ForbidenException, ServerErrorException } from '@/presentation/helpers/http/http-helper'
+import { ForbidenException, Ok, ServerErrorException } from '@/presentation/helpers/http/http-helper'
 
 export class SaveSurveyResultController implements Controller {
   constructor (
@@ -22,12 +22,14 @@ export class SaveSurveyResultController implements Controller {
       } else {
         return ForbidenException(new InvalidParamError('surveyId'))
       }
-      await this.saveSurveyResult.save({
+      const surveyResul = await this.saveSurveyResult.save({
         accountId,
         surveyId,
         answer,
         date: new Date()
       })
+
+      return Ok(surveyResul)
     } catch (error) {
       return ServerErrorException(error)
     }
