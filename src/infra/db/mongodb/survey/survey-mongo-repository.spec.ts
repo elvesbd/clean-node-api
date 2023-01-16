@@ -98,7 +98,7 @@ describe('Survey Mongo Repository', () => {
       })
 
       const sut = makeSut()
-      const survey = await sut.loadById(result.insertedId)
+      const survey = await sut.loadById(result.insertedId.toString())
       expect(survey.id).toBeTruthy()
       expect(survey).toBeTruthy()
     })
