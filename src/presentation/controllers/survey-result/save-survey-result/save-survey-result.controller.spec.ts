@@ -1,4 +1,4 @@
-import { SaveSurveyResultController } from './save-survey-resulr.controller'
+import { SaveSurveyResultController } from './save-survey-result.controller'
 import { HttpRequest, LoadSurveyById, SaveSurveyResult, SaveSurveyResultModel, SurveyResultModel } from './save-survey-result.interface'
 import { SurveyModel } from '@/domain/models/survey'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
