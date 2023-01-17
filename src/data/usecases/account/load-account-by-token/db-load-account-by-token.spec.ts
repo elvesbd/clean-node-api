@@ -1,5 +1,7 @@
 import { DbLoadAccountByToken } from './db-load-account-by-token'
-import { Decrypter, LoadAccountByTokenRepository, AccountModel } from './db-load-account-by-token.interfaces'
+import { Decrypter, LoadAccountByTokenRepository } from './db-load-account-by-token.interfaces'
+import { mockDecrypter, mockLoadAccountByTokenRepository } from '@/data/test'
+import { mockAccountModel } from '@/domain/test'
 
 interface SutTypes {
   sut: DbLoadAccountByToken
@@ -7,34 +9,9 @@ interface SutTypes {
   loadAccountByTokenRepositoryStub: LoadAccountByTokenRepository
 }
 
-const makeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email',
-  password: 'valid_password'
-})
-
-const makeDecrypter = (): Decrypter => {
-  class DecrypterStub implements Decrypter {
-    async decrypt (value: string): Promise<string | null> {
-      return 'any_value'
-    }
-  }
-  return new DecrypterStub()
-}
-
-const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
-  class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByToken (token: string, role?: string): Promise<AccountModel | null> {
-      return makeAccount()
-    }
-  }
-  return new LoadAccountByTokenRepositoryStub()
-}
-
 const makeSut = (): SutTypes => {
-  const loadAccountByTokenRepositoryStub = makeLoadAccountByTokenRepository()
-  const decrypterStub = makeDecrypter()
+  const loadAccountByTokenRepositoryStub = mockLoadAccountByTokenRepository()
+  const decrypterStub = mockDecrypter()
   const sut = new DbLoadAccountByToken(decrypterStub, loadAccountByTokenRepositoryStub)
   return {
     sut,
@@ -83,7 +60,7 @@ describe('DbLoadAccountByToken Usecase', () => {
   it('should return an account on success', async () => {
     const { sut } = makeSut()
     const account = await sut.load('any_token', 'any_role')
-    expect(account).toEqual(makeAccount())
+    expect(account).toEqual(mockAccountModel())
   })
 
   it('should throws if Decrypter throws', async () => {
