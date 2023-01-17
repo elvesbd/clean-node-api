@@ -1,4 +1,4 @@
-import { AddSurveyModel, AddSurveyRepository } from './db-add-survey-interfaces'
+import { AddSurveyDTO, AddSurveyRepository } from './db-add-survey-interfaces'
 import { DbAddSurvey } from './db-add-survey'
 import MockDate from 'mockdate'
 
@@ -7,7 +7,7 @@ interface SutTypes {
   addSurveyRepositoryStub: AddSurveyRepository
 }
 
-const makeFakeSurveyData = (): AddSurveyModel => ({
+const makeFakeSurveyData = (): AddSurveyDTO => ({
   question: 'any_question',
   answers: [{
     image: 'any_image',
@@ -18,7 +18,7 @@ const makeFakeSurveyData = (): AddSurveyModel => ({
 
 const makeAddSurveyRepository = (): AddSurveyRepository => {
   class AddSurveyRepositoryStub implements AddSurveyRepository {
-    async add (surveyData: AddSurveyModel): Promise<void> {
+    async add (surveyData: AddSurveyDTO): Promise<void> {
       return await new Promise(resolve => resolve())
     }
   }

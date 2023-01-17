@@ -1,5 +1,5 @@
 import { SignupController } from './signup-controller'
-import { AddAccount, AccountModel, HttpRequest, AccountDTO, Authentication, AuthenticationModel, Validation } from './signup-controller-interfaces'
+import { AddAccount, AccountModel, HttpRequest, AccountDTO, Authentication, AuthenticationDTO, Validation } from './signup-controller-interfaces'
 import { ServerError, EmailInUseError, MissingParamError } from '@/presentation/errors'
 import { ServerErrorException, ForbidenException, Created, BadRequestException } from '@/presentation/helpers/http/http-helper'
 
@@ -46,7 +46,7 @@ const makeValidation = (): Validation => {
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string | null> {
+    async auth (authentication: AuthenticationDTO): Promise<string | null> {
       return 'any_token'
     }
   }

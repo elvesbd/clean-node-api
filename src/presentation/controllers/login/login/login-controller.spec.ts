@@ -2,7 +2,7 @@ import { LoginController } from './login-controller'
 import { Authentication, HttpRequest, Validation } from './login-controller-interfaces'
 import { MissingParamError } from '@/presentation/errors'
 import { BadRequestException, Ok, ServerErrorException, UnauthorizedException } from '@/presentation/helpers/http/http-helper'
-import { AuthenticationModel } from '@/domain/usecases/account/authentication'
+import { AuthenticationDTO } from '@/domain/usecases/account/authentication'
 
 interface SutTypes {
   sut: LoginController
@@ -21,7 +21,7 @@ const makeValidation = (): Validation => {
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string | null> {
+    async auth (authentication: AuthenticationDTO): Promise<string | null> {
       return 'token'
     }
   }

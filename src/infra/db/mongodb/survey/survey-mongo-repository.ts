@@ -1,13 +1,13 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AddSurveyRepository } from '@/data/interfaces/db/survey/add-survey-repository'
 import { LoadSurveyRepository } from '@/data/interfaces/db/survey/load-survey-repository'
-import { AddSurveyModel } from '@/domain/usecases/survey/add-survey'
+import { AddSurveyDTO } from '@/domain/usecases/survey/add-survey'
 import { SurveyModel } from '@/domain/models/survey'
 import { LoadSurveyByIdRepository } from '@/data/usecases/survey/load-survey-by-id/db-load-survey-by-id.interfaces'
 import { ObjectId } from 'mongodb'
 
 export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveyRepository, LoadSurveyByIdRepository {
-  async add (surveyData: AddSurveyModel): Promise<void> {
+  async add (surveyData: AddSurveyDTO): Promise<void> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
     await surveyCollection.insertOne(surveyData)
   };

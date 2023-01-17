@@ -1,5 +1,5 @@
 import { SaveSurveyResultController } from './save-survey-result.controller'
-import { HttpRequest, LoadSurveyById, SaveSurveyResult, SaveSurveyResultModel, SurveyResultModel } from './save-survey-result.interface'
+import { HttpRequest, LoadSurveyById, SaveSurveyResult, SaveSurveyResultDTO, SurveyResultModel } from './save-survey-result.interface'
 import { SurveyModel } from '@/domain/models/survey'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
 import { ServerErrorException, ForbidenException, Ok } from '@/presentation/helpers/http/http-helper'
@@ -51,7 +51,7 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
-    async save (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
+    async save (data: SaveSurveyResultDTO): Promise<SurveyResultModel> {
       return makeFakeSurveyResult()
     }
   }

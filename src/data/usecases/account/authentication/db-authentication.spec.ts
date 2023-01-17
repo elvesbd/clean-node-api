@@ -1,6 +1,6 @@
 import {
   AccountModel,
-  AuthenticationModel,
+  AuthenticationDTO,
   HashComparer,
   LoadAccountByEmailRepository,
   Encrypter,
@@ -16,7 +16,7 @@ interface SutTypes {
   updateAccessTokenRepositoryStub: UpdateAccessTokenRepository
 }
 
-const makeFakeAuthentication = (): AuthenticationModel => ({
+const makeFakeAuthentication = (): AuthenticationDTO => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })
