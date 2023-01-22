@@ -8,7 +8,7 @@ import { LoadSurveyRepository } from '@/data/interfaces/db/survey/load-survey-re
 export const mockAddSurveyRepository = (): AddSurveyRepository => {
   class AddSurveyRepositoryStub implements AddSurveyRepository {
     async add (surveyData: AddSurveyDTO): Promise<void> {
-      return await new Promise(resolve => resolve())
+      return await Promise.resolve()
     }
   }
   return new AddSurveyRepositoryStub()

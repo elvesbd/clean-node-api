@@ -27,7 +27,7 @@ export const mockSaveSurveyResult = (): SaveSurveyResult => {
 export const mockAddSurvey = (): AddSurvey => {
   class AddSurveyStub implements AddSurvey {
     async add (data: AddSurveyDTO): Promise<void> {
-      return await new Promise<void>(resolve => resolve())
+      return await Promise.resolve()
     }
   }
   return new AddSurveyStub()
