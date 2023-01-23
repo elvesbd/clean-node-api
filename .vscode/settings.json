@@ -4,6 +4,7 @@
     "Hasher",
     "middlewars",
     "mockdate",
+    "openapi",
     "usecases"
   ]
 }
