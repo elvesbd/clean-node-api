@@ -12,9 +12,9 @@ export class AccountMongoRepository implements
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository,
    LoadAccountByTokenRepository {
-  async add (accountData: AccountDTO): Promise<AccountModel> {
+  async add (data: AccountDTO): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
-    const result = await accountCollection.insertOne(accountData)
+    const result = await accountCollection.insertOne(data)
     const account = await accountCollection.findOne(result.insertedId)
     return MongoHelper.map(account)
   }

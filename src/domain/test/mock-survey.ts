@@ -1,50 +1,32 @@
 import { SurveyModel } from '@/domain/models/survey'
 import { AddSurveyDTO } from '@/domain/usecases/survey/add-survey'
+import { faker } from '@faker-js/faker'
 
-export const mockFakeSurvey = (): SurveyModel => ({
-  id: 'any_id',
-  question: 'any_question',
+export const mockSurveyModel = (): SurveyModel => ({
+  id: faker.datatype.uuid(),
+  question: faker.random.words(),
   answers: [
     {
-      image: 'any_image',
-      answer: 'any_answer'
-    }
-  ],
-  date: new Date()
-})
-
-export const mockFakeSurveys = (): SurveyModel[] => {
-  return [
-    {
-      id: 'any_id',
-      question: 'any_question',
-      answers: [
-        {
-          image: 'any_image',
-          answer: 'any_answer'
-        }
-      ],
-      date: new Date()
+      answer: faker.random.word()
     },
     {
-      id: 'other_id',
-      question: 'other_question',
-      answers: [
-        {
-          image: 'any_image',
-          answer: 'any_answer'
-        }
-      ],
-      date: new Date()
+      answer: faker.random.word(),
+      image: faker.image.imageUrl()
     }
-  ]
-}
+  ],
+  date: faker.date.recent()
+})
+
+export const mockSurveyModels = (): SurveyModel[] => [
+  mockSurveyModel(),
+  mockSurveyModel()
+]
 
 export const mockAddSurveyData = (): AddSurveyDTO => ({
-  question: 'any_question',
+  question: faker.random.words(),
   answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
+    image: faker.image.imageUrl(),
+    answer: faker.random.word()
   }],
-  date: new Date()
+  date: faker.date.recent()
 })

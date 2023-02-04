@@ -1,10 +1,12 @@
 import { AuthenticationDTO, Authentication } from '@/domain/usecases/account/authentication'
+import { faker } from '@faker-js/faker'
 
-export const mockAuthentication = (): Authentication => {
-  class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationDTO): Promise<string | null> {
-      return 'token'
-    }
+export class AuthenticationSpy implements Authentication {
+  authenticationParams: AuthenticationDTO
+  token = faker.datatype.uuid()
+
+  async auth (authenticationParams: AuthenticationDTO): Promise<string> {
+    this.authenticationParams = authenticationParams
+    return await Promise.resolve(this.token)
   }
-  return new AuthenticationStub()
 }

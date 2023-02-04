@@ -3,20 +3,24 @@ import { AccountModel } from '@/domain/models/account'
 import { mockAccountModel } from '@/domain/test'
 import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 
-export const mockAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
-    async add (account: AccountDTO): Promise<AccountModel | null> {
-      return mockAccountModel()
-    }
+export class AddAccountSpy implements AddAccount {
+  accountModel = mockAccountModel()
+  addAccountParams: AccountDTO
+
+  async add (account: AccountDTO): Promise<AccountModel> {
+    this.addAccountParams = account
+    return await Promise.resolve(this.accountModel)
   }
-  return new AddAccountStub()
 }
 
-export const mockLoadAccountByToken = (): LoadAccountByToken => {
-  class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load (accessToken: string, role?: string | undefined): Promise<AccountModel | null> {
-      return mockAccountModel()
-    }
+export class LoadAccountByTokenSpy implements LoadAccountByToken {
+  accountModel = mockAccountModel()
+  accessToken: string
+  role: string
+
+  async load (accessToken: string, role?: string): Promise<AccountModel> {
+    this.accessToken = accessToken
+    this.role = role
+    return await Promise.resolve(this.accountModel)
   }
-  return new LoadAccountByTokenStub()
 }

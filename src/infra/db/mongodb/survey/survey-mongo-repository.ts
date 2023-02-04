@@ -7,9 +7,9 @@ import { LoadSurveyByIdRepository } from '@/data/usecases/survey/load-survey-by-
 import { ObjectId } from 'mongodb'
 
 export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveyRepository, LoadSurveyByIdRepository {
-  async add (surveyData: AddSurveyDTO): Promise<void> {
+  async add (data: AddSurveyDTO): Promise<void> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
-    await surveyCollection.insertOne(surveyData)
+    await surveyCollection.insertOne(data)
   };
 
   async loadAll (): Promise<SurveyModel[]> {

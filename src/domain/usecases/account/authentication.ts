@@ -4,5 +4,6 @@ export interface AuthenticationDTO {
 }
 
 export interface Authentication {
-  auth: (authentication: AuthenticationDTO) => Promise<string | null>
+  auth: (authenticationParams: AuthenticationDTO) => Promise<string>
+
 }

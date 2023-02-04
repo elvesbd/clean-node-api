@@ -1,50 +1,45 @@
 import { DbLoadSurveys } from './db-load-surveys'
-import MockDate from 'mockdate'
-import { LoadSurveyRepository } from './db-load-surveys.interfaces'
-import { mockLoadSurveyRepository } from '@/data/test'
-import { mockFakeSurveys } from '@/domain/test'
+import { LoadSurveysRepositorySpy } from '@/data/test'
 
 interface SutTypes {
   sut: DbLoadSurveys
-  loadSurveyRepositoryStub: LoadSurveyRepository
+  loadSurveysRepositorySpy: LoadSurveysRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveyRepositoryStub = mockLoadSurveyRepository()
-  const sut = new DbLoadSurveys(loadSurveyRepositoryStub)
+  const loadSurveysRepositorySpy = new LoadSurveysRepositorySpy()
+  const sut = new DbLoadSurveys(loadSurveysRepositorySpy)
   return {
-    loadSurveyRepositoryStub,
+    loadSurveysRepositorySpy,
     sut
   }
 }
 
 describe('DbLoadSurveys', () => {
-  beforeAll(() => {
-    MockDate.set(new Date())
-  })
-
-  afterAll(() => {
-    MockDate.reset()
-  })
+  jest.useFakeTimers()
 
   it('should call LoadSurveyRepository', async () => {
-    const { sut, loadSurveyRepositoryStub } = makeSut()
-    const loadAllSpy = jest.spyOn(loadSurveyRepositoryStub, 'loadAll')
+    const { sut, loadSurveysRepositorySpy } = makeSut()
+
     await sut.load()
-    expect(loadAllSpy).toHaveBeenCalled()
+
+    expect(loadSurveysRepositorySpy.callsCount).toBe(1)
   })
 
   it('should return a list of Surveys on success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveysRepositorySpy } = makeSut()
+
     const surveys = await sut.load()
-    expect(surveys).toEqual(mockFakeSurveys())
+
+    expect(surveys).toEqual(loadSurveysRepositorySpy.surveyModels)
   })
 
   it('should return 500 if LoadSurveyRepository throws', async () => {
-    const { sut, loadSurveyRepositoryStub } = makeSut()
+    const { sut, loadSurveysRepositorySpy } = makeSut()
 
-    jest.spyOn(loadSurveyRepositoryStub, 'loadAll').mockRejectedValueOnce(new Error())
+    jest.spyOn(loadSurveysRepositorySpy, 'loadAll').mockRejectedValueOnce(new Error())
     const promise = sut.load()
+
     await expect(promise).rejects.toThrow()
   })
 })
