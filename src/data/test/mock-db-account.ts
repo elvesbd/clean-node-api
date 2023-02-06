@@ -16,15 +16,6 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
   }
 }
 
-/* export const mockLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
-    async loadByEmail (email: string): Promise<AccountModel | null> {
-      return mockAccountModel()
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub()
-} */
-
 export class LoadAccountByEmailRepositorySpy implements LoadAccountByEmailRepository {
   accountModel = mockAccountModel()
   email: string
@@ -34,15 +25,6 @@ export class LoadAccountByEmailRepositorySpy implements LoadAccountByEmailReposi
     return await Promise.resolve(this.accountModel)
   }
 }
-
-/* export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
-  class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByToken (token: string, role?: string): Promise<AccountModel | null> {
-      return mockAccountModel()
-    }
-  }
-  return new LoadAccountByTokenRepositoryStub()
-} */
 
 export class LoadAccountByTokenRepositorySpy implements LoadAccountByTokenRepository {
   accountModel = mockAccountModel()
@@ -55,15 +37,6 @@ export class LoadAccountByTokenRepositorySpy implements LoadAccountByTokenReposi
     return await Promise.resolve(this.accountModel)
   }
 }
-
-/* export const mockUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
-  class UpdateAccessTokenRepositoryStub implements UpdateAccessTokenRepository {
-    async updateAccessToken (id: string, token: string): Promise<void> {
-      return undefined
-    }
-  }
-  return new UpdateAccessTokenRepositoryStub()
-} */
 
 export class UpdateAccessTokenRepositorySpy implements UpdateAccessTokenRepository {
   id: string
