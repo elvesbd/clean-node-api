@@ -28,9 +28,9 @@ export class SignupController implements Controller {
         return ForbidenException(new EmailInUseError())
       }
 
-      const accessToken = await this.authentication.auth({ email, password })
+      const authenticationModel = await this.authentication.auth({ email, password })
 
-      return Created({ accessToken })
+      return Created(authenticationModel)
     } catch (error) {
       return ServerErrorException(error)
     }

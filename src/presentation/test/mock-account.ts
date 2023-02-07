@@ -9,7 +9,7 @@ export class AddAccountSpy implements AddAccount {
 
   async add (account: AccountDTO): Promise<AccountModel> {
     this.addAccountParams = account
-    return await Promise.resolve(this.accountModel)
+    return this.accountModel
   }
 }
 
@@ -21,6 +21,6 @@ export class LoadAccountByTokenSpy implements LoadAccountByToken {
   async load (accessToken: string, role?: string): Promise<AccountModel> {
     this.accessToken = accessToken
     this.role = role
-    return await Promise.resolve(this.accountModel)
+    return this.accountModel
   }
 }
