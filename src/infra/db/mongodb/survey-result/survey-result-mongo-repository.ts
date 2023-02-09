@@ -21,7 +21,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
     })
   }
 
-  async loadBySurveyId (surveyId: string): Promise<any> {
+  async loadBySurveyId (surveyId: string, accountId: string): Promise<any> {
     const surveyResultCollection = MongoHelper.getCollection('surveyResults')
     const query = new QueryBuilder()
       .match({
@@ -59,12 +59,12 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
         },
         count: {
           $sum: 1
-        }
-        /*  currentAccountAnswer: {
+        },
+        currentAccountAnswer: {
           $push: {
             $cond: [{ $eq: ['$data.accountId', new ObjectId(accountId)] }, '$data.answer', '$invalid']
           }
-        } */
+        }
       })
       .project({
         _id: 0,
@@ -152,10 +152,10 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
         },
         percent: {
           $sum: '$answers.percent'
-        }
-        /*  isCurrentAccountAnswerCount: {
+        },
+        isCurrentAccountAnswerCount: {
           $sum: '$answers.isCurrentAccountAnswerCount'
-        } */
+        }
       })
       .project({
         _id: 0,
@@ -166,10 +166,10 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
           answer: '$_id.answer',
           image: '$_id.image',
           count: round('$count'),
-          percent: round('$percent')
-          /* isCurrentAccountAnswer: {
+          percent: round('$percent'),
+          isCurrentAccountAnswer: {
             $eq: ['$isCurrentAccountAnswerCount', 1]
-          } */
+          }
         }
       })
       .sort({

@@ -13,7 +13,8 @@ interface SutTypes {
 
 const mockRequest = (): HttpRequest => ({
   params: {
-    surveyId: faker.datatype.uuid()
+    surveyId: faker.datatype.uuid(),
+    accountId: faker.datatype.uuid()
   }
 })
 
@@ -56,13 +57,14 @@ describe('LoadSurveyResult Controller', () => {
     expect(httpResponse).toEqual(ServerErrorException(new Error()))
   })
 
-  it('should call LoadSurveyResult with correct value', async () => {
+  it('should call LoadSurveyResult with correct values', async () => {
     const { sut, loadSurveyResultSpy } = makeSut()
     const httpRequest = mockRequest()
 
     await sut.handle(httpRequest)
 
     expect(loadSurveyResultSpy.surveyId).toBe(httpRequest.params.surveyId)
+    expect(loadSurveyResultSpy.accountId).toBe(httpRequest.params.accountId)
   })
 
   it('should return 500 if LoadSurveyById throws', async () => {

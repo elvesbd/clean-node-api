@@ -20,6 +20,7 @@ const makeSut = (): SutTypes => {
 }
 
 let surveyId: string
+let accountId: string
 
 describe('DbLoadSurveyResult UseCase', () => {
   const now = new Date()
@@ -27,21 +28,23 @@ describe('DbLoadSurveyResult UseCase', () => {
 
   beforeEach(() => {
     surveyId = faker.datatype.uuid()
+    accountId = faker.datatype.uuid()
   })
 
-  it('should call LoadSurveyResultRepository', async () => {
+  it('should call LoadSurveyResultRepository with correct values', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
 
-    await sut.load(surveyId)
+    await sut.load(surveyId, accountId)
 
     expect(loadSurveyResultRepositorySpy.surveyId).toBe(surveyId)
+    expect(loadSurveyResultRepositorySpy.accountId).toBe(accountId)
   })
 
   it('should throws if LoadSurveyResultRepository throws', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
 
     jest.spyOn(loadSurveyResultRepositorySpy, 'loadBySurveyId').mockRejectedValueOnce(new Error())
-    const promise = sut.load('any_survey_id')
+    const promise = sut.load('any_survey_id', 'any_account_id')
 
     await expect(promise).rejects.toThrow()
   })
@@ -50,7 +53,7 @@ describe('DbLoadSurveyResult UseCase', () => {
     const { sut, loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy } = makeSut()
 
     loadSurveyResultRepositorySpy.surveyResultModel = null
-    await sut.load(surveyId)
+    await sut.load(surveyId, accountId)
 
     expect(loadSurveyByIdRepositorySpy.id).toBe(surveyId)
   })
@@ -58,7 +61,7 @@ describe('DbLoadSurveyResult UseCase', () => {
   it('should return surveyResultModel with all answers count 0 if LoadSurveyResultRepository returns null', async () => {
     const { sut, loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy } = makeSut()
     loadSurveyResultRepositorySpy.surveyResultModel = null
-    const surveyResult = await sut.load(surveyId)
+    const surveyResult = await sut.load(surveyId, accountId)
     const { surveyModel } = loadSurveyByIdRepositorySpy
     expect(surveyResult).toEqual({
       surveyId: surveyModel.id,
@@ -66,7 +69,8 @@ describe('DbLoadSurveyResult UseCase', () => {
       date: surveyModel.date,
       answers: surveyModel.answers.map(answer => Object.assign({}, answer, {
         count: 0,
-        percent: 0
+        percent: 0,
+        isCurrentAccountAnswer: false
       }))
     })
   })
@@ -74,7 +78,7 @@ describe('DbLoadSurveyResult UseCase', () => {
   it('should return survey result model on success', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
 
-    const surveyResult = await sut.load(surveyId)
+    const surveyResult = await sut.load(surveyId, accountId)
 
     expect(surveyResult).toEqual(loadSurveyResultRepositorySpy.surveyResultModel)
   })
